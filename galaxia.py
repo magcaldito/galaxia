@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-
+import sys
 import time
 import pygame
 import random
@@ -8,8 +8,8 @@ pygame.init()
 pygame.font.init()
 pygame.mixer.init()
 
-# fps=100
-# reloj = pygame.time.Clock()
+fps=60
+reloj = pygame.time.Clock()
 
 white=pygame.Color(255,255,255)
 green=pygame.Color(0,255,0)        
@@ -67,7 +67,7 @@ def dibunave01(x,y,color):
     pygame.draw.line(ventana,color,(x+B/2,y+H/2),(x+B/10,y-H/10),width=1)
     pygame.draw.line(ventana,color,(x-B/10,y-H/10),(x,y-H/2),width=1)
     pygame.draw.line(ventana,color,(x+B/10,y-H/10),(x,y-H/2),width=1)
-    pygame.display.flip()
+#    pygame.display.flip()
     
 
 def dibumalo01(x,y,color):
@@ -76,12 +76,12 @@ def dibumalo01(x,y,color):
     pygame.draw.line(ventana,color,(x-20,y),(x+20,y),width=1)
     pygame.draw.line(ventana,color,(x-20,y-10),(x-20,y+10),width=1)
     pygame.draw.line(ventana,color,(x+20,y-10),(x+20,y+10),width=1)
-    pygame.display.flip()
+#    pygame.display.flip()
     
 
 def dibudisparo01(x,y,color):
     pygame.draw.line(ventana,color,(x,y+L/2),(x,y-L/2),width=2)
-    pygame.display.flip()
+#    pygame.display.flip()
     
  
 def finaliza():
@@ -116,7 +116,7 @@ while running:
     dibudisparo01(Xd,Yd,yellow)
     pygame.display.update()
     dibumalo01(Xm01,Ym01,pink)
-    pygame.display.update()
+    pygame.display.flip()
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -189,13 +189,19 @@ while running:
         dibudisparo01(Xd,Yd,black)
         pygame.draw.circle(ventana,yellow, (Xc,Yc),50,width=1)
         pygame.display.flip()
-        time.sleep(0.1)
+        pygame.mixer.Sound.play(sonidoexplode)
+
+        time.sleep(0.5)
         pygame.draw.circle(ventana,black, (Xc,Yc),50,width=1)
+        time.sleep(0.5)
         pygame.draw.circle(ventana,yellow, (Xc,Yc),100,width=1)
         pygame.display.flip()
-        pygame.mixer.Sound.play(sonidoexplode)
-        time.sleep(0.1)
-        pygame.draw.circle(ventana,black, (Xc,Yc),100,width=1)
+        time.sleep(0.5)
+        pygame.draw.circle(ventana,black,(Xc,Yc),100,width=1)
+        time.sleep(0.5)
+        pygame.display.flip()
+        time.sleep(0.5)
+        
         fuente = pygame.font.SysFont('times new roman', 60)
         gameover_surface = fuente.render('GAME OVER', True, yellow)
         gameover_rect = gameover_surface.get_rect()
@@ -204,7 +210,7 @@ while running:
         ventana.blit(gameover_surface, gameover_rect)
         pygame.display.flip()
         marcador(Score)
-        time.sleep(5)
+        time.sleep(1)
         finaliza()
 
     dibunave01(Xc,Yc,black)
@@ -215,7 +221,6 @@ while running:
         Xc = ANCHOP
     if Xc < 0:
         Xc = 0
-
 
     if Yd < 50:
         disparo = 0
@@ -230,7 +235,6 @@ while running:
 
     contador = contador+5
 
-    pygame.display.update()
-#    reloj.tick(fps)
+    reloj.tick(fps)
 
 
